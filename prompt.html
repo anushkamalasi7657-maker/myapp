@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Builder – Anushka</title>
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #eef2ff, #f8fafc);
+    margin: 0;
+    padding: 0;
+    color: #111827;
+  }
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 40px 20px;
+  }
+  h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #1e3a8a;
+  }
+  p.subtitle {
+    color: #6b7280;
+    margin-bottom: 30px;
+  }
+  .card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+  }
+  label {
+    font-weight: 600;
+    display: block;
+    margin-top: 15px;
+  }
+  textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    font-size: 14px;
+  }
+  button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    border: none;
+    background: #4f46e5;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  button:hover {
+    background: #4338ca;
+  }
+  .output {
+    white-space: pre-wrap;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+    font-family: monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>✨ Prompt Builder</h1>
+  <p class="subtitle">Built for how you think: structured, outcome-first, minimal but sharp.</p>
+
+  <div class="card">
+    <label>Context</label>
+    <textarea id="context" placeholder="What are you working on?"></textarea>
+
+    <label>Task</label>
+    <textarea id="task" placeholder="What do you want exactly?"></textarea>
+
+    <label>Audience</label>
+    <input id="audience" placeholder="Students, professionals, faculty..." />
+
+    <label>Tone</label>
+    <select id="tone">
+      <option value="crisp and professional">Crisp & Professional</option>
+      <option value="polite and warm">Polite & Warm</option>
+      <option value="strategic and sharp">Strategic & Sharp</option>
+      <option value="minimal and direct">Minimal & Direct</option>
+    </select>
+
+    <label>Output Format</label>
+    <select id="format">
+      <option value="bullet points">Bullet Points</option>
+      <option value="slides with teaching notes">Slides + Notes</option>
+      <option value="HTML page">HTML</option>
+      <option value="message">Message</option>
+    </select>
+
+    <button onclick="generatePrompt()">Generate Prompt</button>
+  </div>
+
+  <div id="result" class="output"></div>
+</div>
+
+<script>
+function generatePrompt() {
+  const context = document.getElementById('context').value;
+  const task = document.getElementById('task').value;
+  const audience = document.getElementById('audience').value;
+  const tone = document.getElementById('tone').value;
+  const format = document.getElementById('format').value;
+
+  const prompt = `I am working on: ${context}\n\nTask:\n${task}\n\nAudience:\n${audience}\n\nMake it:\n- Tone: ${tone}\n- Keep it structured and practical\n\nOutput Format:\n${format}`;
+
+  document.getElementById('result').innerText = prompt;
+}
+</script>
+
+</body>
+</html>
