@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt OS Elite – Anushka</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#060a1a;
+--panel:#0f1633;
+--soft:#182052;
+--accent:#7c8cff;
+--accent2:#22d3ee;
+--text:#eef1ff;
+--muted:#9aa3c7;
+}
+body{margin:0;font-family:'Inter',sans-serif;background:linear-gradient(135deg,#060a1a,#0f1633);color:var(--text)}
+.container{max-width:1300px;margin:auto;padding:30px}
+h1{font-size:26px}
+.sub{color:var(--muted);margin-bottom:20px}
+.layout{display:grid;grid-template-columns:320px 1fr 320px;gap:20px}
+.panel{background:var(--panel);border-radius:16px;padding:18px}
+label{font-size:12px;color:var(--muted);display:block;margin-top:12px}
+textarea,input,select{width:100%;background:var(--soft);border:none;border-radius:10px;padding:10px;color:var(--text);font-size:13px}
+button{padding:10px;border:none;border-radius:10px;background:var(--accent);color:white;cursor:pointer;margin-top:10px;width:100%}
+.small{background:var(--soft)}
+.output{background:#040714;border-radius:14px;padding:20px;min-height:260px;white-space:pre-wrap;font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{background:var(--soft);padding:5px 10px;border-radius:20px;font-size:11px;cursor:pointer}
+.chip:hover{background:var(--accent)}
+.toolbox button{margin-top:6px;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.saved{font-size:12px;margin-top:10px;color:var(--muted);cursor:pointer}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Prompt OS — Elite Mode</h1>
+<div class="sub">Design → Refine → Upgrade → Reuse</div>
+
+<div class="layout">
+
+<!-- INPUT PANEL -->
+<div class="panel">
+<label>Use Case</label>
+<select id="usecase" onchange="autofill()">
+<option value="">Select</option>
+<option value="id">Instructional Design</option>
+<option value="msg">Professional Message</option>
+<option value="strat">Strategic Thinking</option>
+<option value="resume">Resume</option>
+</select>
+
+<label>Context</label>
+<textarea id="context"></textarea>
+
+<label>Task</label>
+<textarea id="task"></textarea>
+
+<label>Audience</label>
+<input id="audience" />
+
+<label>Tone</label>
+<div class="chips">
+<div class="chip" onclick="setTone('strategic and sharp')">Strategic</div>
+<div class="chip" onclick="setTone('crisp and professional')">Crisp</div>
+<div class="chip" onclick="setTone('polite and warm')">Warm</div>
+<div class="chip" onclick="setTone('minimal and direct')">Minimal</div>
+</div>
+
+<label>Depth</label>
+<select id="depth">
+<option>Quick</option>
+<option>Balanced</option>
+<option>Deep Thinking</option>
+</select>
+
+<label>Output Format</label>
+<select id="format">
+<option>Bullet Points</option>
+<option>Slides + Notes</option>
+<option>Message</option>
+<option>Framework</option>
+<option>HTML</option>
+</select>
+
+<button onclick="generate()">Generate</button>
+<button class="small" onclick="refine()">Refine</button>
+<button class="small" onclick="upgrade()">Make Elite</button>
+<button class="small" onclick="savePrompt()">Save</button>
+
+<div class="saved" id="savedList"></div>
+</div>
+
+<!-- OUTPUT PANEL -->
+<div class="panel">
+<div class="output" id="output"></div>
+<button onclick="copy()">Copy</button>
+</div>
+
+<!-- TOOLBOX PANEL -->
+<div class="panel toolbox">
+<label>Quick Enhancers</label>
+<button onclick="addLine('Make it more concise and remove fluff')">Concise</button>
+<button onclick="addLine('Make it more structured and scannable')">Structured</button>
+<button onclick="addLine('Add strategic depth and reasoning')">Strategic Depth</button>
+<button onclick="addLine('Make tone more persuasive and impactful')">Persuasive</button>
+
+<label>Fix My Prompt</label>
+<textarea id="badPrompt" placeholder="Paste weak prompt here"></textarea>
+<button onclick="fixPrompt()">Upgrade Prompt</button>
+</div>
+
+</div>
+</div>
+
+<script>
+let tone='strategic and sharp';
+function setTone(t){tone=t}
+
+function autofill(){
+let val=document.getElementById('usecase').value;
+if(val==='id'){
+document.getElementById('task').value='Create learning content with objectives, slides, and detailed teaching notes aligned to outcomes';
+}
+if(val==='msg'){
+document.getElementById('task').value='Rewrite into a crisp, polite, and clear professional message';
+}
+if(val==='strat'){
+document.getElementById('task').value='Break down into issues, options, and recommended actions with reasoning';
+}
+if(val==='resume'){
+document.getElementById('task').value='Create quantified, impact-driven resume bullets aligned to target role';
+}
+}
+
+function generate(){
+const context=document.getElementById('context').value;
+const task=document.getElementById('task').value;
+const audience=document.getElementById('audience').value;
+const depth=document.getElementById('depth').value;
+const format=document.getElementById('format').value;
+
+const prompt=`Context:\n${context}\n\nTask:\n${task}\n\nAudience:\n${audience}\n\nInstructions:\n- Tone: ${tone}\n- Depth: ${depth}\n- Keep it structured, practical, and outcome-focused\n- Avoid generic responses\n\nOutput Format:\n${format}`;
+
+document.getElementById('output').innerText=prompt;
+}
+
+function refine(){
+let text=document.getElementById('output').innerText;
+text += '\n\nEnhancements:\n- Add clarity\n- Ensure real-world applicability\n- Ask clarifying questions if needed';
+document.getElementById('output').innerText=text;
+}
+
+function upgrade(){
+let text=document.getElementById('output').innerText;
+text += '\n\nElite Layer:\n- Think step-by-step before answering\n- Prioritize insight over information\n- Provide structured frameworks where relevant\n- Highlight assumptions and trade-offs';
+document.getElementById('output').innerText=text;
+}
+
+function addLine(line){
+let text=document.getElementById('output').innerText;
+text += '\n- '+line;
+document.getElementById('output').innerText=text;
+}
+
+function fixPrompt(){
+let bad=document.getElementById('badPrompt').value;
+let improved=`Improve this prompt:\n${bad}\n\nMake it:\n- Clear in context\n- Specific in task\n- Strong in constraints\n- Well-formatted output`;
+document.getElementById('output').innerText=improved;
+}
+
+function copy(){navigator.clipboard.writeText(document.getElementById('output').innerText)}
+
+function savePrompt(){
+let prompt=document.getElementById('output').innerText;
+let saved=JSON.parse(localStorage.getItem('prompts')||'[]');
+saved.push(prompt);
+localStorage.setItem('prompts',JSON.stringify(saved));
+loadSaved();
+}
+
+function loadSaved(){
+let saved=JSON.parse(localStorage.getItem('prompts')||'[]');
+let list=saved.map((p,i)=>`<div onclick="loadOne(${i})">Prompt ${i+1}</div>`).join('');
+document.getElementById('savedList').innerHTML=list;
+}
+
+function loadOne(i){
+let saved=JSON.parse(localStorage.getItem('prompts'));
+document.getElementById('output').innerText=saved[i];
+}
+
+loadSaved();
+</script>
+</body>
+</html>
